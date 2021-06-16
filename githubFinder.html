@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Profile | Finder</title>
+
+    <style>
+        #picture {
+            width: 3%;
+            margin-left: 10px;
+        }
+
+        body {
+            background-color: silver;
+        }
+
+        h1 {
+            text-align: center;
+            color: midnightblue;
+        }
+
+        #heading img {
+            width: 5%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .value {
+            text-align: center;
+            margin-top: 2%;
+
+        }
+
+        #btn {
+            height: 35px;
+            width: 80px;
+            border-radius: 5%;
+            cursor: pointer;
+            background: chartreuse;
+        }
+
+        #text-field {
+            height: 30px;
+            width: 200px;
+            border-radius: 5%;
+        }
+
+        #result {
+            text-align: center;
+        }
+
+        #result img {
+            width: 150px;
+            border-radius: 50%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <img id="picture" src="github1.png" alt="Github">
+
+        <div id="heading">
+            <img src="github1.png" alt="Heding">
+            <h1>Github Profile Finder</h1>
+        </div>
+        <form class="value">
+            <input id="text-field" type="text" required placeholder="Enter name here">
+            <button id="btn" type="submit">Search</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let form = document.getElementById("btn");
+
+        form.addEventListener('click', (e) => {
+            e.preventDefault();
+            let search = document.getElementById('text-field').value;
+            let userName = search.split(' ').join('');
+
+            if (userName.length == 0) {
+                alert("Please fill name first.")
+
+            } else {
+                fetch("https://api.github.com/users/" + userName)
+                    .then((result) => result.json())
+                    .then((data) => {
+                        console.log(data);
+
+                        document.getElementById("result").innerHTML = `
+                <img src="${data.avatar_url}"/>
+                <h3>Name: ${data.name} </h3>
+                <h4>Bio: ${data.bio} </h4>
+                <h4>Followers: ${data.followers} </h4> 
+                <h4>Following: ${data.following} </h4> 
+                <h4>Address: ${data.location} </h4>
+                <a target="blank" href="https://www.github.com/${userName}"><h4>Url: ${data.url} </h4>
+                
+                `
+                    })
+            }
+
+
+        });
+    </script>
+
+</body>
+
+</html>
